@@ -1,0 +1,368 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+<title>iPhone Launcher</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    color: white;
+    background:
+        linear-gradient(135deg, #4d76aa, #111827);
+}
+
+/* Status bar */
+.statusbar {
+    height: 28px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: rgba(0,0,0,0.18);
+}
+
+.right {
+    float: right;
+}
+
+/* Main screen */
+.screen {
+    height: calc(100% - 28px);
+    position: relative;
+    padding: 10px 15px;
+}
+
+/* Clock */
+.clock {
+    text-align: center;
+    font-size: 46px;
+    font-weight: 200;
+    margin-top: 5px;
+}
+
+.date {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Search */
+.search {
+    display: block;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+
+    padding: 10px 15px;
+
+    border: none;
+    outline: none;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.25);
+    color: white;
+
+    font-size: 15px;
+}
+
+.search::placeholder {
+    color: #ddd;
+}
+
+/* App grid */
+.apps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px 8px;
+    max-width: 500px;
+    margin: auto;
+}
+
+.app {
+    text-align: center;
+    font-size: 11px;
+}
+
+.icon {
+    width: 58px;
+    height: 58px;
+
+    margin: auto;
+    margin-bottom: 4px;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.96);
+    color: #222;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 27px;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+}
+
+.app:active .icon {
+    transform: scale(0.9);
+}
+
+/* Bottom dock */
+.dock {
+    position: absolute;
+
+    bottom: 10px;
+    left: 5%;
+
+    width: 90%;
+    height: 75px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.20);
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    padding: 9px;
+}
+
+.dock .icon {
+    width: 55px;
+    height: 55px;
+}
+
+/* Small screens */
+@media(max-height:450px) {
+
+    .clock {
+        font-size: 32px;
+    }
+
+    .apps {
+        gap: 8px;
+    }
+
+    .icon {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+    }
+
+    .dock {
+        height: 65px;
+    }
+
+    .dock .icon {
+        width: 47px;
+        height: 47px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="statusbar">
+    <span>Android</span>
+    <span class="right">▰ ▰ 🔋</span>
+</div>
+
+<div class="screen">
+
+    <div class="clock" id="clock">
+        12:00
+    </div>
+
+    <div class="date" id="date">
+        Monday, January 1
+    </div>
+
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="Search"
+    >
+
+    <div class="apps" id="apps">
+
+        <div class="app" onclick="openApp('Phone')">
+            <div class="icon">☎</div>
+            Phone
+        </div>
+
+        <div class="app" onclick="openApp('Messages')">
+            <div class="icon">✉</div>
+            Messages
+        </div>
+
+        <div class="app" onclick="openApp('Camera')">
+            <div class="icon">●</div>
+            Camera
+        </div>
+
+        <div class="app" onclick="openApp('Gallery')">
+            <div class="icon">▣</div>
+            Gallery
+        </div>
+
+        <div class="app" onclick="openApp('Music')">
+            <div class="icon">♫</div>
+            Music
+        </div>
+
+        <div class="app" onclick="openApp('Browser')">
+            <div class="icon">◎</div>
+            Browser
+        </div>
+
+        <div class="app" onclick="openApp('Settings')">
+            <div class="icon">⚙</div>
+            Settings
+        </div>
+
+        <div class="app" onclick="openApp('Calculator')">
+            <div class="icon">＋</div>
+            Calculator
+        </div>
+
+    </div>
+
+    <div class="dock">
+
+        <div class="app" onclick="openApp('Phone')">
+            <div class="icon">☎</div>
+        </div>
+
+        <div class="app" onclick="openApp('Messages')">
+            <div class="icon">✉</div>
+        </div>
+
+        <div class="app" onclick="openApp('Browser')">
+            <div class="icon">◎</div>
+        </div>
+
+        <div class="app" onclick="openApp('Music')">
+            <div class="icon">♫</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Clock */
+
+function updateClock() {
+
+    var now = new Date();
+
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+
+    document.getElementById("clock").innerHTML =
+        hours + ":" + minutes;
+
+    var days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+
+    var months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+    document.getElementById("date").innerHTML =
+        days[now.getDay()] +
+        ", " +
+        months[now.getMonth()] +
+        " " +
+        now.getDate();
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+
+
+/* App buttons */
+
+function openApp(name) {
+
+    alert(name + " opened");
+
+}
+
+
+/* Search */
+
+document.getElementById("search").onkeyup = function() {
+
+    var searchText =
+        this.value.toLowerCase();
+
+    var apps =
+        document.getElementsByClassName("app");
+
+    for (var i = 0; i < apps.length; i++) {
+
+        var name =
+            apps[i].innerHTML.toLowerCase();
+
+        if (
+            searchText === "" ||
+            name.indexOf(searchText) !== -1
+        ) {
+
+            apps[i].style.display = "";
+
+        } else {
+
+            apps[i].style.display = "none";
+
+        }
+    }
+};
+
+</script>
+
+</body>
+</html>
+```
