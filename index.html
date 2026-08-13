@@ -1,369 +1,49 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<title>iPhone Launcher</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>iLauncher — iOS Style</title>
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    color: white;
-    background:
-        linear-gradient(135deg, #4d76aa, #111827);
-}
-
-/* Status bar */
-.statusbar {
-    height: 28px;
-    padding: 5px 10px;
-    font-size: 12px;
-    background: rgba(0,0,0,0.18);
-}
-
-.right {
-    float: right;
-}
-
-/* Main screen */
-.screen {
-    height: calc(100% - 28px);
-    position: relative;
-    padding: 10px 15px;
-}
-
-/* Clock */
-.clock {
-    text-align: center;
-    font-size: 46px;
-    font-weight: 200;
-    margin-top: 5px;
-}
-
-.date {
-    text-align: center;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-/* Search */
-.search {
-    display: block;
-    width: 90%;
-    max-width: 500px;
-    margin: 0 auto 20px auto;
-
-    padding: 10px 15px;
-
-    border: none;
-    outline: none;
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.25);
-    color: white;
-
-    font-size: 15px;
-}
-
-.search::placeholder {
-    color: #ddd;
-}
-
-/* App grid */
-.apps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px 8px;
-    max-width: 500px;
-    margin: auto;
-}
-
-.app {
-    text-align: center;
-    font-size: 11px;
-}
-
-.icon {
-    width: 58px;
-    height: 58px;
-
-    margin: auto;
-    margin-bottom: 4px;
-
-    border-radius: 14px;
-
-    background: rgba(255,255,255,0.96);
-    color: #222;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 27px;
-
-    box-shadow: 0 3px 8px rgba(0,0,0,0.35);
-}
-
-.app:active .icon {
-    transform: scale(0.9);
-}
-
-/* Bottom dock */
-.dock {
-    position: absolute;
-
-    bottom: 10px;
-    left: 5%;
-
-    width: 90%;
-    height: 75px;
-
-    border-radius: 22px;
-
-    background: rgba(255,255,255,0.20);
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-
-    padding: 9px;
-}
-
-.dock .icon {
-    width: 55px;
-    height: 55px;
-}
-
-/* Small screens */
-@media(max-height:450px) {
-
-    .clock {
-        font-size: 32px;
-    }
-
-    .apps {
-        gap: 8px;
-    }
-
-    .icon {
-        width: 48px;
-        height: 48px;
-        font-size: 22px;
-    }
-
-    .dock {
-        height: 65px;
-    }
-
-    .dock .icon {
-        width: 47px;
-        height: 47px;
-    }
-}
+:root{--bg:#03070d;--panel:rgba(20,28,39,.82);--line:rgba(255,255,255,.16);--muted:#aab3c0;--accent:#28a9ff;--radius:18px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 50% 0,#101b2b 0,#050910 42%,#010306 100%);color:#fff}body{padding:24px 18px 28px;overflow-x:hidden}.wrap{max-width:1180px;margin:auto}.hero{text-align:center;margin-bottom:22px}.hero h1{font-size:72px;line-height:.95;margin:0;font-weight:500;letter-spacing:-4px}.hero h1 span{color:#19a8ff}.hero p{font-size:27px;margin:14px 0 12px;background:linear-gradient(90deg,#00a9ff,#a95cff,#ff3c9e);-webkit-background-clip:text;background-clip:text;color:transparent}.badge{display:inline-block;padding:9px 18px;border:1px solid #68717d;border-radius:25px;color:#eee;background:rgba(20,25,34,.7);font-size:15px}
+.editor{display:grid;grid-template-columns:225px minmax(350px,520px) 225px;gap:14px;align-items:start}.column{display:flex;flex-direction:column;gap:14px}.panel{background:linear-gradient(145deg,rgba(25,34,46,.88),rgba(10,15,23,.86));border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.35);overflow:hidden}.panel h3{font-size:15px;margin:0;padding:14px;border-bottom:1px solid rgba(255,255,255,.09)}.panel-body{padding:13px}.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 0;font-size:13px}.row small{color:var(--muted)}button,.pill{border:1px solid rgba(255,255,255,.18);background:#18212d;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer}.seg{display:flex;gap:4px}.seg button{flex:1}.seg .active{background:#536170}.slider{width:92px}.switch{width:34px;height:20px;border-radius:20px;background:#59616b;position:relative;cursor:pointer}.switch:after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s}.switch.on{background:#23d95c}.switch.on:after{left:16px}.swatches{display:flex;flex-wrap:wrap;gap:12px}.swatch{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.65);cursor:pointer}.swatch.blue{background:#168cf5}.swatch.purple{background:#9b4de8}.swatch.pink{background:#f53c6b}.swatch.orange{background:#ff7512}.swatch.green{background:#35d34b}.swatch.cyan{background:#16d5d8}.swatch.yellow{background:#ffca1a}.swatch.white{background:#eee}.swatch.black{background:#101010}.plus{font-size:20px}
+.phone{position:relative;border:3px solid #7b8088;border-radius:48px;padding:38px 17px 18px;background:#010205;box-shadow:0 0 0 1px #111,0 25px 60px rgba(0,0,0,.7);min-height:890px}.phone:before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:105px;height:23px;background:#020204;border-radius:20px;z-index:5}.phone:after{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:7px;height:7px;background:#263248;border-radius:50%;z-index:6}.screen{height:830px;border-radius:32px;overflow:hidden;position:relative;background:linear-gradient(150deg,#071329 0%,#08101f 43%,#10182b 65%,#21151a 100%);padding:12px 12px 20px}.status{display:flex;justify-content:flex-end;gap:7px;align-items:center;font-size:13px;height:24px}.home-time{text-align:left;font-size:15px;margin:3px 0 14px 5px}.widgets{display:grid;grid-template-columns:1fr 1fr;gap:10px}.widget{background:rgba(92,104,125,.38);border:1px solid rgba(255,255,255,.05);border-radius:22px;padding:13px;min-height:150px;backdrop-filter:blur(10px)}.widget .small{font-size:10px}.widget .big{font-size:42px;font-weight:300;margin-top:4px}.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);font-size:9px;text-align:center;gap:5px;margin-top:8px;color:#eee}.calendar-grid b{font-weight:400;color:#fff}.weather .temp{font-size:42px;font-weight:300}.sun{font-size:38px;text-align:right}.weather p{font-size:11px;margin:4px 0}.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 9px;margin:30px 5px 0}.app{text-align:center;font-size:10px}.appicon{width:55px;height:55px;margin:auto auto 4px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 5px 12px rgba(0,0,0,.3);background:#fff;color:#111}.green{background:#30d158}.blue{background:#258cff}.red{background:#ff375f}.orange{background:#ff9f0a}.dark{background:#111;color:#fff}.gray{background:#d8dbe0}.purple{background:#8e55df}.black{background:#050505;color:#fff}.dock{position:absolute;bottom:12px;left:13px;right:13px;height:78px;border-radius:25px;background:rgba(160,165,176,.25);display:grid;grid-template-columns:repeat(4,1fr);align-items:center;padding:8px}.dock .appicon{width:55px;height:55px}.page-dots{text-align:center;position:absolute;bottom:96px;left:0;right:0;color:#bbb;font-size:13px}.volume{position:absolute;left:-3px;top:400px;width:43px;height:220px;background:rgba(40,40,45,.85);border:1px solid #aaa;border-radius:20px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;font-size:20px;z-index:8}.volume:before{content:'';position:absolute;bottom:35px;width:28px;height:90px;background:#fff}.phone-caption{font-size:16px;margin:8px 0 0 100px;color:#eee}.phone-caption span{font-size:12px;color:#ccc}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 225px 0}.feature{padding:14px}.feature h3{margin:0 0 12px;font-size:14px}.layouts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini{height:58px;background:#101722;border:1px solid #5c6570;border-radius:10px;padding:7px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.mini i{background:#eee;border-radius:3px}.footer{margin-top:18px;background:rgba(16,22,31,.9);border-radius:22px;padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.foot{display:flex;align-items:center;gap:12px}.foot .sym{font-size:25px}.foot b{font-size:12px}.foot small{display:block;color:#aab1bc;font-size:10px;margin-top:3px}
+@media(max-width:900px){.editor{grid-template-columns:1fr}.column{display:grid;grid-template-columns:repeat(2,1fr)}.phone{max-width:520px;margin:auto}.bottom{margin:14px 0}.footer{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){body{padding:12px 8px}.hero h1{font-size:50px}.hero p{font-size:20px}.column{display:flex}.editor{display:block}.editor>.column{display:none}.phone{border-radius:38px;padding:28px 10px 12px;min-height:760px}.screen{height:710px}.apps{margin-top:20px;gap:12px 5px}.appicon{width:48px;height:48px;font-size:23px}.dock{height:66px}.dock .appicon{width:46px;height:46px}.widgets .widget{min-height:130px}.widget .big,.weather .temp{font-size:34px}.bottom{display:none}.footer{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-
 <body>
-
-<div class="statusbar">
-    <span>Android</span>
-    <span class="right">▰ ▰ 🔋</span>
+<div class="wrap">
+<header class="hero"><h1>i<span>Launcher</span></h1><p>iOS Style. Fully Customizable.</p><div class="badge">Designed for Android 4.0.4 and Up</div></header>
+<div class="editor">
+<div class="column">
+<section class="panel"><h3>Layout</h3><div class="panel-body"><div class="row">Rows <span><button onclick="adjust('rows',-1)">−</button> <b id="rows">5</b> <button onclick="adjust('rows',1)">+</button></span></div><div class="row">Columns <span><button onclick="adjust('cols',-1)">−</button> <b id="cols">6</b> <button onclick="adjust('cols',1)">+</button></span></div><div class="row">Icon Size <input class="slider" type="range" min="70" max="120" value="100"></div><div class="row">Icon Labels <span class="switch on" onclick="this.classList.toggle('on')"></span></div><div class="row">Show Dock <span class="switch on" onclick="this.classList.toggle('on')"></span></div></div></section>
+<section class="panel"><h3>Widgets</h3><div class="panel-body"><div class="widgets" style="grid-template-columns:1fr 1fr"><div class="widget" style="min-height:65px"><span>◷</span> 100%</div><div class="widget" style="min-height:65px"><b>34°</b><br><small>Partly Cloudy ☀</small></div></div></div></section>
+<section class="panel"><h3>Dock</h3><div class="panel-body"><div class="row">Background <div class="seg"><button class="active">Blur</button><button>Solid</button></div></div><div class="row">Corner Radius <input class="slider" type="range" min="0" max="40" value="28"></div><div class="row">Icon Size <input class="slider" type="range" min="70" max="120" value="100"></div><div class="row">Pages <span>● ● ● ● <button>+</button></span></div></div></section>
+<section class="panel"><h3>Gestures</h3><div class="panel-body"><div class="row">Swipe Up <small>App Library ›</small></div><div class="row">Swipe Down <small>Notifications ›</small></div><div class="row">Pinch In <small>Edit Mode ›</small></div><div class="row">Pinch Out <small>None ›</small></div></div></section>
 </div>
-
-<div class="screen">
-
-    <div class="clock" id="clock">
-        12:00
-    </div>
-
-    <div class="date" id="date">
-        Monday, January 1
-    </div>
-
-    <input
-        class="search"
-        id="search"
-        type="text"
-        placeholder="Search"
-    >
-
-    <div class="apps" id="apps">
-
-        <div class="app" onclick="openApp('Phone')">
-            <div class="icon">☎</div>
-            Phone
-        </div>
-
-        <div class="app" onclick="openApp('Messages')">
-            <div class="icon">✉</div>
-            Messages
-        </div>
-
-        <div class="app" onclick="openApp('Camera')">
-            <div class="icon">●</div>
-            Camera
-        </div>
-
-        <div class="app" onclick="openApp('Gallery')">
-            <div class="icon">▣</div>
-            Gallery
-        </div>
-
-        <div class="app" onclick="openApp('Music')">
-            <div class="icon">♫</div>
-            Music
-        </div>
-
-        <div class="app" onclick="openApp('Browser')">
-            <div class="icon">◎</div>
-            Browser
-        </div>
-
-        <div class="app" onclick="openApp('Settings')">
-            <div class="icon">⚙</div>
-            Settings
-        </div>
-
-        <div class="app" onclick="openApp('Calculator')">
-            <div class="icon">＋</div>
-            Calculator
-        </div>
-
-    </div>
-
-    <div class="dock">
-
-        <div class="app" onclick="openApp('Phone')">
-            <div class="icon">☎</div>
-        </div>
-
-        <div class="app" onclick="openApp('Messages')">
-            <div class="icon">✉</div>
-        </div>
-
-        <div class="app" onclick="openApp('Browser')">
-            <div class="icon">◎</div>
-        </div>
-
-        <div class="app" onclick="openApp('Music')">
-            <div class="icon">♫</div>
-        </div>
-
-    </div>
-
+<div>
+<div class="phone"><div class="screen"><div class="status"><span>⌁</span><span>100% ▰</span></div><div class="home-time" id="phoneTime">5:41 PM</div><div class="widgets"><div class="widget"><div class="small">SUNDAY</div><div class="big">10</div><div class="small">AUGUST</div><div class="calendar-grid"><b>S</b><b>M</b><b>T</b><b>W</b><b>T</b><b>F</b><b>S</b><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div></div><div class="widget weather"><div><b>Islamabad</b> ◢</div><div class="temp">34°</div><div class="sun">☀️</div><p>Partly Cloudy</p><p>H:35° L:24°</p></div></div>
+<div class="apps" id="apps"></div><div class="page-dots">● ● ●</div><div class="dock" id="dock"></div><div class="volume">🔊</div></div></div><div class="phone-caption">↑<br><b>iOS Style Volume Indicator</b><br><span>Just like iPhone</span></div>
 </div>
-
+<div class="column">
+<section class="panel"><h3>Wallpaper</h3><div class="panel-body"><div class="row">Choose <span>Gallery ›</span></div><div class="row">Mode <span>Blur ›</span></div><div class="row">Blur <input class="slider" type="range" value="20"></div><div class="row">Darken <input class="slider" type="range" value="10"></div><div class="row">Parallax <span class="switch on" onclick="this.classList.toggle('on')"></span></div></div></section>
+<section class="panel"><h3>Colors</h3><div class="panel-body"><div class="swatches"><i class="swatch blue"></i><i class="swatch purple"></i><i class="swatch pink"></i><i class="swatch orange"></i><i class="swatch green"></i><i class="swatch cyan"></i><i class="swatch yellow"></i><i class="swatch white"></i><i class="swatch black"></i></div><div class="row">Custom Color <button class="plus">+</button></div><div class="row">Tint Icons <span class="switch on"></span></div></div></section>
+<section class="panel"><h3>Status Bar</h3><div class="panel-body"><div class="row">Time <span class="switch on"></span></div><div class="row">Battery <span class="switch on"></span></div><div class="row">Wi-Fi <span class="switch on"></span></div><div class="row">Cellular <span class="switch on"></span></div><div class="row">Custom Text <span>iLauncher ›</span></div></div></section>
+<section class="panel"><h3>Animations</h3><div class="panel-body"><div class="row">App Open <span>Fade ›</span></div><div class="row">App Close <span>Zoom ›</span></div><div class="row">Page Transition <span>Slide ›</span></div><div class="row">Icon Bounce <span class="switch on"></span></div><div class="row">Animation Speed <input class="slider" type="range" value="100"></div></div></section>
+<section class="panel"><h3>More</h3><div class="panel-body"><div class="row">Hide Apps</div><div class="row">Lock Apps</div><div class="row">Backup & Restore</div></div></section>
+</div>
+</div>
+<div class="bottom"><section class="panel feature"><h3>App Library Style</h3><div class="layouts" id="layouts"></div></section><section class="panel feature"><h3>Import / Export</h3><div class="row">Export Setup <button>Save ›</button></div><div class="row">Import Setup <button>Load ›</button></div><div class="row" style="color:#ff624e">Reset to Default <button style="color:#ff624e">Reset ›</button></div></section></div>
+<footer class="footer"><div class="foot"><div class="sym">♢</div><div><b>iOS STYLE</b><small>Beautiful Design</small></div></div><div class="foot"><div class="sym">⚙</div><div><b>FULLY CUSTOMIZABLE</b><small>Every Detail</small></div></div><div class="foot"><div class="sym">◎</div><div><b>LIGHTWEIGHT</b><small>Smooth Performance</small></div></div><div class="foot"><div class="sym">▣</div><div><b>BATTERY FRIENDLY</b><small>Optimized</small></div></div></footer>
+</div>
 <script>
-
-/* Clock */
-
-function updateClock() {
-
-    var now = new Date();
-
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-
-    document.getElementById("clock").innerHTML =
-        hours + ":" + minutes;
-
-    var days = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    ];
-
-    var months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ];
-
-    document.getElementById("date").innerHTML =
-        days[now.getDay()] +
-        ", " +
-        months[now.getMonth()] +
-        " " +
-        now.getDate();
-}
-
-setInterval(updateClock, 1000);
-
-updateClock();
-
-
-/* App buttons */
-
-function openApp(name) {
-
-    alert(name + " opened");
-
-}
-
-
-/* Search */
-
-document.getElementById("search").onkeyup = function() {
-
-    var searchText =
-        this.value.toLowerCase();
-
-    var apps =
-        document.getElementsByClassName("app");
-
-    for (var i = 0; i < apps.length; i++) {
-
-        var name =
-            apps[i].innerHTML.toLowerCase();
-
-        if (
-            searchText === "" ||
-            name.indexOf(searchText) !== -1
-        ) {
-
-            apps[i].style.display = "";
-
-        } else {
-
-            apps[i].style.display = "none";
-
-        }
-    }
-};
-
+const apps=[['FaceTime','▰','green'],['Calendar','10','white'],['Photos','✿','white'],['Camera','●','gray'],['Mail','✉','blue'],['Clock','◷','black'],['Maps','⌁','green'],['Weather','☀','blue'],['Reminders','☷','white'],['Notes','▤','white'],['App Store','A','blue'],['Settings','⚙','gray'],['Files','▱','blue'],['YouTube','▶','red'],['Spotify','●','black'],['Netflix','N','black']];
+function makeApps(){const a=document.getElementById('apps');a.innerHTML='';apps.forEach(x=>{let d=document.createElement('div');d.className='app';d.innerHTML='<div class="appicon '+x[2]+'">'+x[1]+'</div>'+x[0];d.onclick=()=>alert(x[0]+' opened');a.appendChild(d)});const dock=document.getElementById('dock');dock.innerHTML='';[['Phone','☎','green'],['Safari','◉','blue'],['Messages','●','green'],['Music','♫','red']].forEach(x=>{let d=document.createElement('div');d.className='app';d.innerHTML='<div class="appicon '+x[2]+'">'+x[1]+'</div>';d.onclick=()=>alert(x[0]+' opened');dock.appendChild(d)})}
+function adjust(id,n){let e=document.getElementById(id),v=parseInt(e.textContent)+n;if(v>=2&&v<=8)e.textContent=v}
+function clock(){let d=new Date(),h=d.getHours(),m=String(d.getMinutes()).padStart(2,'0'),ap=h>=12?'PM':'AM';h=h%12||12;document.getElementById('phoneTime').textContent=h+':'+m+' '+ap}setInterval(clock,1000);clock();makeApps();
+for(let i=0;i<6;i++){let box=document.createElement('div');box.className='mini';for(let j=0;j<9;j++){let x=document.createElement('i');box.appendChild(x)}document.getElementById('layouts').appendChild(box)}
 </script>
-
 </body>
-
-
 </html>
